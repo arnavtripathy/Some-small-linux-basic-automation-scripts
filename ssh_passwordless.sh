@@ -13,8 +13,7 @@ read hostname
 echo -e "\n"|ssh-keygen -t rsa -N ""
 cat <<EOF > /tmp/ssh_directory.sh
        #!/bin/bash
-       pwd >> read result_pwd
-       if [[ -d $result_pwd/.ssh ]]
+       if [[ -d $HOME/.ssh ]]
        then
        		echo ".ssh exists on your filesystem."
        else 
@@ -23,9 +22,8 @@ cat <<EOF > /tmp/ssh_directory.sh
 EOF
 chmod a+x /tmp/ssh_directory.sh
 sshpass -p $pass scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no /tmp/ssh_directory.sh $user@$hostname:/tmp/ssh_directory.sh
-sleep 5
+sleep 2
 sshpass -p $pass  ssh   -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $user@$hostname "/tmp/ssh_directory.sh"
-cat .ssh/id_rsa.pub | sshpass -p $pass ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  $user@$hostname 'cat >> .ssh/authorized_keys'
-sshpass -p $pass ssh $user@$hostname "chmod 700 .ssh ; chmod 640 .ssh/authorizes_keys"
-
-
+cat $HOME/.ssh/id_rsa.pub | sshpass -p $pass ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  $user@$hostname 'cat >> .ssh/authorized_keys'
+sshpass -p $pass ssh $user@$hostname "chmod 700 .ssh ; chmod 640 .ssh/authorized_keys"
+sshpass -p $pass ssh $user@$hostname
