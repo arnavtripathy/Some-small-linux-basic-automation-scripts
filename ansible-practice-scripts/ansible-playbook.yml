@@ -1,0 +1,19 @@
+-       
+         name: 'Passwordless ssh config'
+         hosts: localhost
+         tasks: 
+                
+                        - name: 'Create ssh keygen'
+                          shell: "ssh-keygen -t rsa -f ~/.ssh/id_rsa -P \"\""
+
+
+                        - name: 'Copy the key'
+                          shell: "cat $HOME/.ssh/id_rsa.pub | sshpass -p ubuntu ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  ubuntu@10.0.2.57 'cat >> .ssh/authorized_keys'"
+
+                        - name: 'Give permissions to the file'
+                          shell: "sshpass -p ubuntu ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@10.0.2.57 'chmod 700 .ssh ; chmod 640 .ssh/authorized_keys' "
+
+                        
+                        
+
+

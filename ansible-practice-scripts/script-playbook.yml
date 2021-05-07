@@ -1,0 +1,6 @@
+
+        - name: 'Check for .ssh directory'
+          hosts: ubuntu
+          tasks:
+                 - name: 'Run script'
+                   script: /tmp/ssh_directory.sh
