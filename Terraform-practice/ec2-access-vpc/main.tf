@@ -5,6 +5,16 @@ resource "aws_instance" "app_server" {
   tags = {
     Name = "ExampleAppServerInstance"
   }
+ provisioner "remote-exe" {
+        inline= ["sudo apt-update"]
+}
+connection {
+type="ssh"
+host=self.public_ip
+user="ubuntu"
+private_key=file("file")
+}
+
   user_data=("/file/to/path")
   key_name=aws_key_pair.web.id
   vpc_security_group_ids=[ aws_security_group.allow_ssh.id]
